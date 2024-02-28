@@ -19,7 +19,7 @@ class Video(Base):
     type: Mapped[str] = mapped_column(String(250), nullable=False)
 
     def __repr__(self):
-        return f'<Video Object: {self.title}>'
+        return f"<Video Object: {self.title}>"
 
 
 class DbManager:
@@ -46,7 +46,7 @@ class DbManager:
     def add_video(self, url: str, title: str, thumbnail: str, author: str, size: float, length: float, v_type: str):
         new_video = Video(
             url=url,
-            title=f'{title}.{v_type}',
+            title=f"{title}.{v_type}",
             thumbnail=thumbnail,
             author=author,
             size=size,

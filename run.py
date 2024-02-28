@@ -9,15 +9,15 @@ from config import dl_path
 def run():
     # making directories if not there
     try:
-        os.mkdir(f'{dl_path}')
+        os.mkdir(f"{dl_path}")
     except FileExistsError:
         pass
     try:
-        os.mkdir(f'{dl_path}\\mp4')
+        os.mkdir(f"{dl_path}\\mp4")
     except FileExistsError:
         pass
     try:
-        os.mkdir(f'{dl_path}\\mp3')
+        os.mkdir(f"{dl_path}\\mp3")
     except FileExistsError:
         pass
 

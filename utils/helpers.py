@@ -18,7 +18,7 @@ def get_all_downloads_in_dir(path) -> list:
     for path, subdirs, files in os.walk(path):
         for name in files:
             all_downloads_in_dir.append(os.path.join(path, name))
-    print(f'All Downloads: {all_downloads_in_dir}')
+    print(f"All Downloads: {all_downloads_in_dir}")
     return all_downloads_in_dir
 
 
@@ -38,7 +38,7 @@ def find(name, path) -> str | bytes:
 def open_download(v_title) -> None:
     file_path = find(v_title, dl_path)
     os.startfile(file_path)
-    print(f'Opened File: <{file_path}>')
+    print(f"Opened File: <{file_path}>")
 
 
 def open_url_in_browser(url) -> None:

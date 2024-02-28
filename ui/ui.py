@@ -255,22 +255,22 @@ class App(CTk):
                         v_type='mp3'
                     )
             except VideoUnavailable:
-                error_label.configure(text=f'{error_label.cget('text')}\nVideo is currently unavailable.')
+                error_label.configure(text=f"{error_label.cget('text')}\nVideo is currently unavailable.")
             except RegexMatchError:
-                error_label.configure(text=f'{error_label.cget('text')}\nThis is not a valid url.')
+                error_label.configure(text=f"{error_label.cget('text')}\nThis is not a valid url.")
             except OSError:
-                error_label.configure(text=f'{error_label.cget('text')}\n'
-                                           f'Could not download\n'
-                                           f'video,because of \n'
-                                           f'special character.\n'
-                                           f'like "|", "\\" or "?"')
+                error_label.configure(text=f"{error_label.cget('text')}\n"
+                                           f"Could not download\n"
+                                           f"video,because of \n"
+                                           f"special character.\n"
+                                           f"like '|', '\\' or '?'")
             else:
                 self.details_frame.download_progress.set(100)
                 self.display_downloads()
             finally:
                 url_entry.delete(0, END)
         else:
-            error_label.configure(text=f'{error_label.cget('text')}\nNo URL provided!')
+            error_label.configure(text=f"{error_label.cget('text')}\nNo URL provided!")
 
     def display_downloads(self) -> None:
         for widget in self.download_frame.winfo_children():
@@ -296,11 +296,11 @@ class App(CTk):
     def download_details(self, title):
         if self.toplevel is None or not self.toplevel.winfo_exists():
             video = self.db.get_video_by_title(title)
-            print(f'Opened detail for: {video}')
+            print(f"Opened detail for: {video}")
 
             self.toplevel = CTkToplevel()
             self.toplevel.geometry('700x300')
-            self.toplevel.title(f'{video.title}')
+            self.toplevel.title(f"{video.title}")
             self.configure(fg_color=('gray99', 'gray21'))
 
             label_header_font = CTkFont(family='Arial', size=14, weight='bold', underline=True)
@@ -308,7 +308,7 @@ class App(CTk):
 
             url_label = CTkLabel(self.toplevel, text='Video Url:', font=label_header_font)
             url_label.grid(row=0, column=0, padx=5, pady=5, sticky='w')
-            video_url = CTkButton(self.toplevel, text=f'{video.url}', text_color='blue', fg_color=('grey92', 'gray14'),
+            video_url = CTkButton(self.toplevel, text=f"{video.url}", text_color='blue', fg_color=('grey92', 'gray14'),
                                   hover_color=('grey92', 'gray14'),
                                   command=lambda u=video.url: open_url_in_browser(url=u),
                                   font=CTkFont(family='Arial', size=11, weight='normal', underline=True))
@@ -320,27 +320,27 @@ class App(CTk):
 
             title_label = CTkLabel(self.toplevel, text='Video Title:', font=label_header_font)
             title_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
-            video_title = CTkLabel(self.toplevel, text=f'{video.title[:-4:]}', font=label_body_font)
+            video_title = CTkLabel(self.toplevel, text=f"{video.title[:-4:]}", font=label_body_font)
             video_title.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
             author_label = CTkLabel(self.toplevel, text='Video Author:', font=label_header_font)
             author_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
-            video_author = CTkLabel(self.toplevel, text=f'{video.author}', font=label_body_font)
+            video_author = CTkLabel(self.toplevel, text=f"{video.author}", font=label_body_font)
             video_author.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
             size_label = CTkLabel(self.toplevel, text='Video Size:', font=label_header_font)
             size_label.grid(row=3, column=0, padx=5, pady=5, sticky='w')
-            video_size = CTkLabel(self.toplevel, text=f'{video.size} mb', font=label_body_font)
+            video_size = CTkLabel(self.toplevel, text=f"{video.size} mb", font=label_body_font)
             video_size.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
             length_label = CTkLabel(self.toplevel, text='Video Length:', font=label_header_font)
             length_label.grid(row=4, column=0, padx=5, pady=5, sticky='w')
-            video_length = CTkLabel(self.toplevel, text=f'{round(video.length)} m', font=label_body_font)
+            video_length = CTkLabel(self.toplevel, text=f"{round(video.length)} m", font=label_body_font)
             video_length.grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
             type_label = CTkLabel(self.toplevel, text='Video Type:', font=label_header_font)
             type_label.grid(row=5, column=0, padx=5, pady=5, sticky='w')
-            video_type = CTkLabel(self.toplevel, text=f'{video.type}', font=label_body_font)
+            video_type = CTkLabel(self.toplevel, text=f"{video.type}", font=label_body_font)
             video_type.grid(row=5, column=1, padx=5, pady=5, sticky='w')
 
             open_button = CTkButton(self.toplevel, text='Open', command=lambda t=video.title: open_download(v_title=t))
@@ -357,6 +357,6 @@ class App(CTk):
         file_path = find(video.title, dl_path)
         os.remove(file_path)
         self.db.delete_video(video)
-        print(f'Deleted File: <{file_path}>')
+        print(f"Deleted File: <{file_path}>")
         self.toplevel.destroy()
         self.display_downloads()
