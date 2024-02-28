@@ -10,7 +10,7 @@ class Video(Base):
     __tablename__ = 'videos'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    url: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
+    url: Mapped[str] = mapped_column(String(250), nullable=False)
     title: Mapped[str] = mapped_column(String(250), nullable=False)
     thumbnail: Mapped[str] = mapped_column(String(250), nullable=False)
     author: Mapped[str] = mapped_column(String(250), nullable=False)

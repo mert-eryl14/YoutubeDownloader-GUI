@@ -1,10 +1,27 @@
 import subprocess
 import sys
+import os
 
 from ui.ui import App
+from config import dl_path
 
 
 def run():
+    # making directories if not there
+    try:
+        os.mkdir(f'{dl_path}')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir(f'{dl_path}\\mp4')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir(f'{dl_path}\\mp3')
+    except FileExistsError:
+        pass
+
+    # activating app
     app = App()
     app.display_downloads()
     app.initialize_download_details()

@@ -133,13 +133,22 @@ class App(CTk):
             dst_mp4 = f'{dl_input}\\mp4'
             src_mp3 = f'{dl_path}\\mp3'
             dst_mp3 = f'{dl_input}\\mp3'
+
+            # try making the directories when the user didn't create them already
+            try:
+                os.mkdir(f'{dl_input}')
+            except FileExistsError:
+                pass
             try:
                 os.mkdir(dst_mp4)
+            except FileExistsError:
+                pass
+            try:
                 os.mkdir(dst_mp3)
             except FileExistsError:
                 pass
-            except FileNotFoundError:
-                return
+
+            # moving all files over to new dl_path
             for mp4_file in os.listdir(src_mp4):
                 source = f'{src_mp4}\\{mp4_file}'
                 destination = f'{dst_mp4}\\{mp4_file}'
@@ -148,6 +157,8 @@ class App(CTk):
                 source = f'{src_mp3}\\{mp3_file}'
                 destination = f'{dst_mp3}\\{mp3_file}'
                 shutil.move(source, destination)
+
+            # changing the dl_path in the config file and restarting the program
             change_dl_path(dl_input)
             self.restart = True
 
