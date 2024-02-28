@@ -6,14 +6,16 @@ from io import BytesIO
 import urllib.request
 import webbrowser
 
+from config import dl_path
+
 
 def length_in_minutes(video_length: int) -> float:
     return video_length / 60
 
 
-def get_all_downloads_in_dir(dl_path) -> list:
+def get_all_downloads_in_dir(path) -> list:
     all_downloads_in_dir = []
-    for path, subdirs, files in os.walk(dl_path):
+    for path, subdirs, files in os.walk(path):
         for name in files:
             all_downloads_in_dir.append(os.path.join(path, name))
     print(f'All Downloads: {all_downloads_in_dir}')
@@ -34,7 +36,7 @@ def find(name, path) -> str | bytes:
 
 
 def open_download(v_title) -> None:
-    file_path = find(v_title, './downloads')
+    file_path = find(v_title, dl_path)
     os.startfile(file_path)
     print(f'Opened File: <{file_path}>')
 

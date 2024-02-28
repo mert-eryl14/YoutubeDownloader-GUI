@@ -1,8 +1,6 @@
 from sqlalchemy import create_engine, inspect, String, Float, Integer, select
 from sqlalchemy.orm import DeclarativeBase, Session, Mapped, mapped_column
 
-DL_PATH = './downloads'
-
 
 class Base(DeclarativeBase):
     pass
@@ -26,7 +24,7 @@ class Video(Base):
 
 class DbManager:
     def __init__(self):
-        self.db = create_engine("sqlite:///./db\\videos.db", echo=True)
+        self.db = create_engine("sqlite:///./db\\videos.db", echo=False)
         if not inspect(self.db).has_table('videos'):  # If table don't exist, Create.
             Base.metadata.tables["videos"].create(bind=self.db)
 

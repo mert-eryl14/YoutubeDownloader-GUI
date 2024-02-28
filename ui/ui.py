@@ -1,10 +1,12 @@
 from customtkinter import *
 
+import os
+import shutil
+
 from db.db import DbManager
 from youtube.youtube import YoutubeDownloader, VideoUnavailable, RegexMatchError, YouTube
 from utils.helpers import create_image_from_url, get_all_downloads_in_dir, find, open_download, open_url_in_browser
-
-DL_PATH = './downloads'
+from config import dl_path, change_dl_path
 
 
 class URLFrame(CTkFrame):
@@ -12,7 +14,6 @@ class URLFrame(CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        # add widgets onto the frame, for example:
         url_label = CTkLabel(self, text='Youtube URL:', font=('Georgia', 15, 'bold'))
         url_label.grid(row=0, column=0, padx=10, pady=10)
         self.url_entry = CTkEntry(self, placeholder_text='Please input the url here!', width=300, height=20)
@@ -56,10 +57,19 @@ class Settings(CTkFrame):
         super().__init__(master, **kwargs)
 
         setting_label = CTkLabel(self, text='Settings', font=('Georgia', 15, 'bold'))
-        setting_label.grid(row=0, column=0, padx=5, pady=5)
+        setting_label.grid(row=0, column=0, padx=5, pady=5, sticky='nw')
 
         self.appearance_switch = CTkSwitch(self, text='Switch appearance mode', command=master.change_appearance_mode)
         self.appearance_switch.grid(row=1, column=0, padx=5, pady=5)
+
+        dl_path_label = CTkLabel(self, text='Download Path:', font=CTkFont(family='Arial', size=12, weight='bold', underline=True))
+        dl_path_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
+
+        self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}')
+        self.dl_path_entry.grid(row=3, column=0, padx=5, pady=5, sticky='w')
+
+        self.set_dl_path_btn = CTkButton(self, text='Set new download path', fg_color='green', command=master.change_download_path)
+        self.set_dl_path_btn.grid(row=3, column=1, padx=5, pady=5)
 
 
 class App(CTk):
@@ -75,6 +85,7 @@ class App(CTk):
         self.all_downloads_in_dir = []
         self.last_url = ''
         self.text_update_index = 0
+        self.restart = False
 
         # creating the window
         self.geometry('900x520')
@@ -86,11 +97,12 @@ class App(CTk):
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
+        # setup frames
         self.url_frame = URLFrame(master=self, border_width=0, width=420, height=160)
         self.grid_propagate(False)
         self.url_frame.grid(row=0, column=0, padx=20, pady=10, sticky='nw')
 
-        self.settings_frame = Settings(master=self, border_width=0, width=200, height=160)
+        self.settings_frame = Settings(master=self, border_width=0, width=400, height=160)
         self.settings_frame.grid_propagate(False)
         self.settings_frame.grid(row=0, column=1, padx=20, pady=10, sticky='nw')
 
@@ -113,6 +125,31 @@ class App(CTk):
             set_appearance_mode('dark')
             self.mode = 'dark'
         print(f'appearance mode changed to {self.mode}')
+
+    def change_download_path(self) -> None:
+        dl_input = self.settings_frame.dl_path_entry.get()
+        if dl_input:
+            src_mp4 = f'{dl_path}\\mp4'
+            dst_mp4 = f'{dl_input}\\mp4'
+            src_mp3 = f'{dl_path}\\mp3'
+            dst_mp3 = f'{dl_input}\\mp3'
+            try:
+                os.mkdir(dst_mp4)
+                os.mkdir(dst_mp3)
+            except FileExistsError:
+                pass
+            except FileNotFoundError:
+                return
+            for mp4_file in os.listdir(src_mp4):
+                source = f'{src_mp4}\\{mp4_file}'
+                destination = f'{dst_mp4}\\{mp4_file}'
+                shutil.move(source, destination)
+            for mp3_file in os.listdir(src_mp3):
+                source = f'{src_mp3}\\{mp3_file}'
+                destination = f'{dst_mp3}\\{mp3_file}'
+                shutil.move(source, destination)
+            change_dl_path(dl_input)
+            self.restart = True
 
     def initialize_download_details(self) -> None:
         url = self.url_frame.url_entry.get()
@@ -228,7 +265,7 @@ class App(CTk):
         for widget in self.download_frame.winfo_children():
             widget.destroy()
 
-        all_downloads_in_dir = get_all_downloads_in_dir(DL_PATH)
+        all_downloads_in_dir = get_all_downloads_in_dir(dl_path)
 
         downloads_label = CTkLabel(self.download_frame, text='All Downloads:', font=('Georgia', 15, 'bold'))
         downloads_label.grid(row=0, column=0, sticky='w', padx=5, pady=5)
@@ -306,7 +343,7 @@ class App(CTk):
             self.toplevel.focus()
 
     def delete_download(self, video) -> None:
-        file_path = find(video.title, './downloads')
+        file_path = find(video.title, dl_path)
         os.remove(file_path)
         self.db.delete_video(video)
         print(f'Deleted File: <{file_path}>')

@@ -4,9 +4,7 @@ from pytube.exceptions import VideoUnavailable, RegexMatchError
 from typing import Literal
 
 from utils.helpers import length_in_minutes
-
-MP4_OUTPUT_FOLDER = './downloads\\mp4'
-MP3_OUTPUT_FOLDER = './downloads\\mp3'
+from config import mp4_output_folder, mp3_output_folder
 
 
 class YoutubeDownloader:
@@ -28,9 +26,9 @@ class YoutubeDownloader:
     def download_stream(self, dl_type: Literal['mp4', 'mp3']):
         try:
             if dl_type == 'mp4':
-                self.mp4_stream.download(filename=f'{self.title}.mp4', output_path=MP4_OUTPUT_FOLDER)
+                self.mp4_stream.download(filename=f'{self.title}.mp4', output_path=mp4_output_folder)
             else:
-                self.mp3_stream.download(filename=f'{self.title}.mp3', output_path=MP3_OUTPUT_FOLDER)
+                self.mp3_stream.download(filename=f'{self.title}.mp3', output_path=mp3_output_folder)
         except VideoUnavailable:
             raise VideoUnavailable
         except RegexMatchError:
