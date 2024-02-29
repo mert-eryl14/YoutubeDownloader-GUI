@@ -17,7 +17,8 @@ def get_all_downloads_in_dir(path) -> list:
     all_downloads_in_dir = []
     for path, subdirs, files in os.walk(path):
         for name in files:
-            all_downloads_in_dir.append(os.path.join(path, name))
+            if name.endswith('.mp4') or name.endswith('.mp3'):
+                all_downloads_in_dir.append(os.path.join(path, name))
     print(f"All Downloads: {all_downloads_in_dir}")
     return all_downloads_in_dir
 

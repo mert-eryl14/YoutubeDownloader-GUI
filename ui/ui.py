@@ -148,7 +148,7 @@ class App(CTk):
             except FileExistsError:
                 pass
 
-            # moving all files over to new dl_path
+            # moving all files in mp4 and mp3 folder over to new dl_path
             for mp4_file in os.listdir(src_mp4):
                 source = f'{src_mp4}\\{mp4_file}'
                 destination = f'{dst_mp4}\\{mp4_file}'
