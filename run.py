@@ -21,7 +21,7 @@ def run():
     except FileExistsError:
         pass
 
-    # activating app
+    #  activating app
     app = App()
     app.display_downloads()
     app.initialize_download_details()

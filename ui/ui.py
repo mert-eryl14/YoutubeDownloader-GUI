@@ -91,6 +91,7 @@ class App(CTk):
         self.geometry('900x520')
         self.title('Youtube Downloader')
         self.configure(fg_color=('gray99', 'gray21'))
+        self.resizable(False, False)
 
         # setup grid to be responsive
         self.grid_rowconfigure(0, weight=1)
@@ -164,7 +165,6 @@ class App(CTk):
 
     def initialize_download_details(self) -> None:
         url = self.url_frame.url_entry.get()
-        print('checking details for url')
         if not url == self.last_url:
             self.last_url = ''
             if url:
@@ -180,7 +180,7 @@ class App(CTk):
                     img_label.grid(row=3, column=0, padx=5, pady=5, sticky='w')
 
                     self.update_text_movement(yt.title)
-                    print(f'Found valid url: {url}')
+                    print(f'Found valid url: {url}. Details Displayed!')
                 except VideoUnavailable:
                     self.destroy_detail_children()
                     print(f'not available: {url}')
@@ -189,7 +189,7 @@ class App(CTk):
                     print(f'not a valid url: {url}')
             else:
                 self.destroy_detail_children()
-        self.after(1500, func=self.initialize_download_details)
+        self.after(500, func=self.initialize_download_details)
 
     def update_text_movement(self, text) -> None:
         double = f'<{text}> <{text}>'
@@ -296,12 +296,13 @@ class App(CTk):
     def download_details(self, title):
         if self.toplevel is None or not self.toplevel.winfo_exists():
             video = self.db.get_video_by_title(title)
-            print(f"Opened detail for: {video}")
+            print(f"Opened toplevel for: {video}")
 
             self.toplevel = CTkToplevel()
-            self.toplevel.geometry('700x300')
+            self.toplevel.geometry('800x300')
             self.toplevel.title(f"{video.title}")
             self.configure(fg_color=('gray99', 'gray21'))
+            self.toplevel.resizable(False, False)
 
             label_header_font = CTkFont(family='Arial', size=14, weight='bold', underline=True)
             label_body_font = CTkFont(family='Arial', size=12, weight='normal')
