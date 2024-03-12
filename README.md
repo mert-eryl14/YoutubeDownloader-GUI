@@ -53,7 +53,7 @@ deactivate
 ```
 
 ## Preview
-![image](https://github.com/eywa14/YoutubeDownloader-GUI/assets/85054971/48c13870-99ed-47d9-ab27-11e60ca307a0)
+![image](https://github.com/eywa14/YoutubeDownloader-GUI/assets/85054971/ae08a794-6340-4aae-839f-aa966766a6f0)
 
 ## Contributing
 

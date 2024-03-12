@@ -14,19 +14,19 @@ class URLFrame(CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        url_label = CTkLabel(self, text='Youtube URL:', font=('Georgia', 15, 'bold'))
+        url_label = CTkLabel(self, text='Youtube URL', font=('Segoe UI', 20, 'bold'))
         url_label.grid(row=0, column=0, padx=10, pady=10)
-        self.url_entry = CTkEntry(self, placeholder_text='Please input the url here!', width=300, height=20, border_width=0)
+        self.url_entry = CTkEntry(self, placeholder_text='Please input the url here!', font=('Segoe UI', 12, 'normal'), width=300, height=20, border_width=0)
         self.url_entry.grid(row=0, column=1, padx=10, pady=10)
 
-        self.mp3_or_4 = CTkComboBox(self, values=['mp3', 'mp4'], width=300, height=20, dropdown_hover_color='blue', state='readonly', border_width=0)
+        self.mp3_or_4 = CTkComboBox(self, values=['mp3', 'mp4'], font=('Segoe UI', 12, 'normal'), width=300, height=20, dropdown_hover_color='blue', state='readonly', border_width=0)
         self.mp3_or_4.set('mp4')
         self.mp3_or_4.grid(row=1, column=1, padx=10, pady=10)
 
-        self.error_label = CTkLabel(self, text='Errors:', text_color='red')
+        self.error_label = CTkLabel(self, text='Errors:', text_color='red', font=('Segoe UI', 12, 'normal'))
         self.error_label.grid(row=2, column=0, padx=10, pady=10)
 
-        download_button = CTkButton(self, text='Download', width=300, height=50, command=master.download_video)
+        download_button = CTkButton(self, text='Download', width=300, height=50, command=master.download_video, font=('Segoe UI', 20, 'bold'))
         download_button.grid(row=2, column=1, padx=10, pady=10)
 
 
@@ -35,10 +35,10 @@ class DownloadDetailsFrame(CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        details_label = CTkLabel(self, text='Download Details:', font=('Georgia', 15, 'bold'))
+        details_label = CTkLabel(self, text='Download Details', font=('Segoe UI', 20, 'bold'))
         details_label.grid(row=0, column=0, padx=10, pady=5, sticky='w')
 
-        self.download_progress = CTkProgressBar(self, border_color='black', progress_color='blue', width=300, height=20)
+        self.download_progress = CTkProgressBar(self, progress_color='lightblue', width=300, height=20)
         self.download_progress.grid(row=1, column=0, columnspan=2, padx=10, pady=5, sticky='w')
         self.download_progress.set(0)
 
@@ -47,28 +47,25 @@ class DownloadsFrame(CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        downloads_label = CTkLabel(self, text='All Downloads:', font=('Georgia', 15, 'bold'))
-        downloads_label.grid(row=0, column=0, sticky='w', padx=5, pady=5)
-
 
 class Settings(CTkFrame):
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        setting_label = CTkLabel(self, text='Settings', font=('Georgia', 15, 'bold'))
+        setting_label = CTkLabel(self, text='Settings', font=('Segoe UI', 20, 'bold'))
         setting_label.grid(row=0, column=0, padx=5, pady=5, sticky='nw')
 
-        self.appearance_switch = CTkSwitch(self, text='Switch appearance mode', command=master.change_appearance_mode)
+        self.appearance_switch = CTkSwitch(self, text='Switch appearance mode', command=master.change_appearance_mode, font=('Segoe UI', 12, 'normal'))
         self.appearance_switch.grid(row=1, column=0, padx=5, pady=5)
 
-        dl_path_label = CTkLabel(self, text='Download Path:', font=CTkFont(family='Arial', size=12, weight='bold'))
+        dl_path_label = CTkLabel(self, text='Download Path:', font=('Segoe UI', 14, 'bold'))
         dl_path_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
-        self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}', border_width=0)
+        self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}', border_width=0, font=('Segoe UI', 12, 'normal'))
         self.dl_path_entry.grid(row=3, column=0, padx=5, pady=5, sticky='w')
 
-        self.set_dl_path_btn = CTkButton(self, text='Set new download path', fg_color='green', command=master.change_download_path)
+        self.set_dl_path_btn = CTkButton(self, text='Set new download path', fg_color='green', command=master.change_download_path, font=('Segoe UI', 13, 'bold'))
         self.set_dl_path_btn.grid(row=3, column=1, padx=5, pady=5)
 
 
@@ -172,7 +169,7 @@ class App(CTk):
                 try:
                     yt = YouTube(url=url)
 
-                    title_label = CTkLabel(self.details_frame, text=f'{yt.title}', font=('Arial', 20, 'bold'))
+                    title_label = CTkLabel(self.details_frame, text=f'{yt.title}', font=('Segoe UI', 20, 'bold'))
                     title_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
                     img = create_image_from_url(yt.thumbnail_url)
@@ -277,16 +274,16 @@ class App(CTk):
 
         all_downloads_in_dir = get_all_downloads_in_dir(dl_path)
 
-        downloads_label = CTkLabel(self.download_frame, text='All Downloads:', font=('Georgia', 15, 'bold'))
+        downloads_label = CTkLabel(self.download_frame, text='All Downloads', font=('Segoe UI', 20, 'bold'))
         downloads_label.grid(row=0, column=0, sticky='w', padx=5, pady=5)
 
-        refresh_button = CTkButton(self.download_frame, text='Refresh', fg_color='green', command=self.display_downloads, hover_color='darkgreen')
-        refresh_button.grid(row=1, column=0, sticky='w', padx=5, pady=5)
+        refresh_button = CTkButton(self.download_frame, text='Refresh', fg_color='green', command=self.display_downloads, hover_color='darkgreen', font=('Segoe UI', 13, 'bold'))
+        refresh_button.grid(row=0, column=1, sticky='w', padx=5, pady=5)
 
         for idx, download in enumerate(all_downloads_in_dir):
             download_title = download.split('\\')[-1]
-            button = CTkButton(self.download_frame, text=download_title, command=lambda t=download_title: self.download_details(title=t))
-            button.grid(row=idx+2, column=0, columnspan=2, padx=5, pady=5, sticky='w')
+            button = CTkButton(self.download_frame, text=download_title, command=lambda t=download_title: self.download_details(title=t), font=('Segoe UI', 12, 'bold'))
+            button.grid(row=idx+1, column=0, columnspan=2, padx=5, pady=5, sticky='w')
 
         self.db.update_db(all_downloads_in_dir)
 
@@ -303,50 +300,50 @@ class App(CTk):
             self.configure(fg_color=('gray99', 'gray21'))
             self.toplevel.resizable(False, False)
 
-            label_header_font = CTkFont(family='Arial', size=14, weight='bold', underline=True)
-            label_body_font = CTkFont(family='Arial', size=12, weight='normal')
+            label_header_font = CTkFont(family='Segoe UI', size=14, weight='bold')
+            label_body_font = CTkFont(family='Segoe UI', size=12, weight='normal')
 
-            url_label = CTkLabel(self.toplevel, text='Video Url:', font=label_header_font)
+            url_label = CTkLabel(self.toplevel, text='Video Url', font=label_header_font)
             url_label.grid(row=0, column=0, padx=5, pady=5, sticky='w')
-            video_url = CTkButton(self.toplevel, text=f"{video.url}", text_color='blue', fg_color=('grey92', 'gray14'),
+            video_url = CTkButton(self.toplevel, text=f"{video.url}", text_color='lightblue', fg_color=('grey92', 'gray14'),
                                   hover_color=('grey92', 'gray14'),
                                   command=lambda u=video.url: open_url_in_browser(url=u),
-                                  font=CTkFont(family='Arial', size=11, weight='normal', underline=True))
+                                  font=CTkFont(family='Segoe UI', size=11, weight='normal', underline=True))
             video_url.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
             img = create_image_from_url(video.thumbnail)
             thumbnail_label = CTkLabel(self.toplevel, text='', image=img)
             thumbnail_label.grid(row=0, column=2, rowspan=6, padx=5, pady=5)
 
-            title_label = CTkLabel(self.toplevel, text='Video Title:', font=label_header_font)
+            title_label = CTkLabel(self.toplevel, text='Video Title', font=label_header_font)
             title_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
             video_title = CTkLabel(self.toplevel, text=f"{video.title[:-4:]}", font=label_body_font)
             video_title.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-            author_label = CTkLabel(self.toplevel, text='Video Author:', font=label_header_font)
+            author_label = CTkLabel(self.toplevel, text='Video Author', font=label_header_font)
             author_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
             video_author = CTkLabel(self.toplevel, text=f"{video.author}", font=label_body_font)
             video_author.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
-            size_label = CTkLabel(self.toplevel, text='Video Size:', font=label_header_font)
+            size_label = CTkLabel(self.toplevel, text='Video Size', font=label_header_font)
             size_label.grid(row=3, column=0, padx=5, pady=5, sticky='w')
             video_size = CTkLabel(self.toplevel, text=f"{video.size} mb", font=label_body_font)
             video_size.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
-            length_label = CTkLabel(self.toplevel, text='Video Length:', font=label_header_font)
+            length_label = CTkLabel(self.toplevel, text='Video Length', font=label_header_font)
             length_label.grid(row=4, column=0, padx=5, pady=5, sticky='w')
             video_length = CTkLabel(self.toplevel, text=f"{round(video.length)} m", font=label_body_font)
             video_length.grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
-            type_label = CTkLabel(self.toplevel, text='Video Type:', font=label_header_font)
+            type_label = CTkLabel(self.toplevel, text='Video Type', font=label_header_font)
             type_label.grid(row=5, column=0, padx=5, pady=5, sticky='w')
             video_type = CTkLabel(self.toplevel, text=f"{video.type}", font=label_body_font)
             video_type.grid(row=5, column=1, padx=5, pady=5, sticky='w')
 
-            open_button = CTkButton(self.toplevel, text='Open', command=lambda t=video.title: open_download(v_title=t))
+            open_button = CTkButton(self.toplevel, text='Open', command=lambda t=video.title: open_download(v_title=t), font=('Segoe UI', 13, 'bold'))
             open_button.grid(row=6, column=0, padx=5, pady=5, sticky='w')
 
-            delete_button = CTkButton(self.toplevel, text='Delete', fg_color='red', hover_color='darkred', command=lambda v=video: self.delete_download(video=v))
+            delete_button = CTkButton(self.toplevel, text='Delete', fg_color='red', hover_color='darkred', command=lambda v=video: self.delete_download(video=v), font=('Segoe UI', 13, 'bold'))
             delete_button.grid(row=6, column=1, padx=5, pady=5, sticky='w')
 
             self.after(100, lambda: self.toplevel.focus())
