@@ -62,7 +62,7 @@ class DbManager:
             session.delete(video)
             session.commit()
 
-    def update_db(self, all_downloads_in_dir):
+    def update_db(self, all_downloads_in_dir: list):
         all_downloads_by_title = [download.split('\\')[-1] for download in all_downloads_in_dir]
         all_videos_in_db = self.get_all_videos()
         with Session(self.db) as session:

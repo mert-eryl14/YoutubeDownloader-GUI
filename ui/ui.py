@@ -16,10 +16,10 @@ class URLFrame(CTkFrame):
 
         url_label = CTkLabel(self, text='Youtube URL:', font=('Georgia', 15, 'bold'))
         url_label.grid(row=0, column=0, padx=10, pady=10)
-        self.url_entry = CTkEntry(self, placeholder_text='Please input the url here!', width=300, height=20)
+        self.url_entry = CTkEntry(self, placeholder_text='Please input the url here!', width=300, height=20, border_width=0)
         self.url_entry.grid(row=0, column=1, padx=10, pady=10)
 
-        self.mp3_or_4 = CTkComboBox(self, values=['mp3', 'mp4'], width=300, height=20, dropdown_hover_color='blue', state='readonly')
+        self.mp3_or_4 = CTkComboBox(self, values=['mp3', 'mp4'], width=300, height=20, dropdown_hover_color='blue', state='readonly', border_width=0)
         self.mp3_or_4.set('mp4')
         self.mp3_or_4.grid(row=1, column=1, padx=10, pady=10)
 
@@ -38,7 +38,7 @@ class DownloadDetailsFrame(CTkFrame):
         details_label = CTkLabel(self, text='Download Details:', font=('Georgia', 15, 'bold'))
         details_label.grid(row=0, column=0, padx=10, pady=5, sticky='w')
 
-        self.download_progress = CTkProgressBar(self, border_color='black', progress_color='blue', border_width=2, width=300, height=20)
+        self.download_progress = CTkProgressBar(self, border_color='black', progress_color='blue', width=300, height=20)
         self.download_progress.grid(row=1, column=0, columnspan=2, padx=10, pady=5, sticky='w')
         self.download_progress.set(0)
 
@@ -65,7 +65,7 @@ class Settings(CTkFrame):
         dl_path_label = CTkLabel(self, text='Download Path:', font=CTkFont(family='Arial', size=12, weight='bold', underline=True))
         dl_path_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
-        self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}')
+        self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}', border_width=0)
         self.dl_path_entry.grid(row=3, column=0, padx=5, pady=5, sticky='w')
 
         self.set_dl_path_btn = CTkButton(self, text='Set new download path', fg_color='green', command=master.change_download_path)
@@ -231,7 +231,7 @@ class App(CTk):
         if url:
             try:
                 mp3_or_mp4 = self.url_frame.mp3_or_4.get()
-                yt = YoutubeDownloader(url=url)
+                yt = YoutubeDownloader(url=url, progressbar=self.details_frame.download_progress)
                 if mp3_or_mp4 == 'mp4':
                     yt.download_stream('mp4')
                     self.db.add_video(
@@ -265,7 +265,6 @@ class App(CTk):
                                            f"special character.\n"
                                            f"like '|', '\\' or '?'")
             else:
-                self.details_frame.download_progress.set(100)
                 self.display_downloads()
             finally:
                 url_entry.delete(0, END)

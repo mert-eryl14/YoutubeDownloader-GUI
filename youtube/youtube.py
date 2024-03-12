@@ -4,13 +4,15 @@ from pytube.exceptions import VideoUnavailable, RegexMatchError
 from typing import Literal
 
 from utils.helpers import length_in_minutes
+from ui.ui import CTkProgressBar
 from config import mp4_output_folder, mp3_output_folder
 
 
 class YoutubeDownloader:
 
-    def __init__(self, url: str):
-        self.yt = YouTube(url=url)
+    def __init__(self, url: str, progressbar: CTkProgressBar):
+        self.yt = YouTube(url=url, on_progress_callback=self.on_progress)
+        self.progressbar = progressbar
 
         self.mp4_stream = self.yt.streams.get_highest_resolution()
         self.mp3_stream = self.yt.streams.filter(only_audio=True).first()
@@ -35,3 +37,10 @@ class YoutubeDownloader:
             raise RegexMatchError
         except OSError:
             raise OSError
+
+    def on_progress(self, stream, chunk, bytes_remaining):
+        total_size = stream.filesize
+        bytes_downloaded = total_size - bytes_remaining
+        perc_in_dec = bytes_downloaded / total_size
+        self.progressbar.set(perc_in_dec)
+        self.progressbar.update()
