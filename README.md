@@ -15,6 +15,8 @@ It is recommended to create a virtual environment like this:
 python -m venv .venv
 ```
 
+<hr>
+
 Then activate the virtual environment.
 
 - On Linux/MacOs:
@@ -30,6 +32,8 @@ It should look somewhat like this now:
 
 ![image](https://github.com/eywa14/YoutubeDownloader/assets/85054971/4751104b-c3dd-4f05-956f-0655a15fb95a)
 
+<hr>
+
 In the venv now use the package manager [pip](https://pip.pypa.io/en/stable/) to install the requirements.
 
 ```bash
@@ -41,13 +45,15 @@ Now you are ready to go and run:
 python run.py
 ```
 
-Ps.: After usage deactivate the venv like this:
+<hr>
+
+After usage deactivate the venv like this:
 ```bash
 deactivate
 ```
 
 ## Preview
-![image](https://github.com/eywa14/YoutubeDownloader/assets/85054971/d923a2f5-5047-4b12-98ba-d7d3c256a426)
+![image](https://github.com/eywa14/YoutubeDownloader-GUI/assets/85054971/48c13870-99ed-47d9-ab27-11e60ca307a0)
 
 ## Contributing
 

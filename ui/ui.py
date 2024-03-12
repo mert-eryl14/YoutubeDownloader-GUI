@@ -62,7 +62,7 @@ class Settings(CTkFrame):
         self.appearance_switch = CTkSwitch(self, text='Switch appearance mode', command=master.change_appearance_mode)
         self.appearance_switch.grid(row=1, column=0, padx=5, pady=5)
 
-        dl_path_label = CTkLabel(self, text='Download Path:', font=CTkFont(family='Arial', size=12, weight='bold', underline=True))
+        dl_path_label = CTkLabel(self, text='Download Path:', font=CTkFont(family='Arial', size=12, weight='bold'))
         dl_path_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
         self.dl_path_entry = CTkEntry(self, placeholder_text=f'Current: {dl_path}', border_width=0)
